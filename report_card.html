@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Report Card - {{ child.full_name }}{% endblock %}
+{% block title %}Report Card - {{ student.full_name }}{% endblock %}
 
 {% block content %}
 
@@ -8,13 +8,13 @@
     <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
         <div>
             <h2 class="fw-bold"><i class="fas fa-file-pdf text-danger me-2"></i>Report Card</h2>
-            <p class="text-muted">{{ child.full_name }} | {{ child.grade }} | {{ term }}</p>
+            <p class="text-muted">{{ student.full_name }} | {{ student.grade }} | {{ term }}</p>
         </div>
         <div>
             <button onclick="window.print()" class="btn btn-danger me-2">
                 <i class="fas fa-print me-1"></i>Print
             </button>
-            <a href="{{ url_for('parent_child_results', child_id=child.id) }}" class="btn btn-secondary">
+            <a href="{{ url_for('admin_student_results', student_id=student.id) }}" class="btn btn-secondary">
                 <i class="fas fa-arrow-left me-1"></i>Back
             </a>
         </div>
@@ -22,7 +22,6 @@
 
     <div class="card border-0 shadow-sm">
         <div class="card-body p-4">
-            <!-- School Header -->
             <div class="text-center mb-4">
                 <h1 class="display-6 fw-bold">Bright Minds Academy</h1>
                 <p class="text-muted">Nairobi, Kenya | +254 700 000 000 | info@brightminds.ac.ke</p>
@@ -31,19 +30,17 @@
                 <p class="text-muted">Academic Year: 2026</p>
             </div>
 
-            <!-- Student Info -->
             <div class="row mb-4">
                 <div class="col-md-6">
-                    <p><strong>Student Name:</strong> {{ child.full_name }}</p>
-                    <p><strong>Admission Number:</strong> {{ child.admission_number }}</p>
+                    <p><strong>Student Name:</strong> {{ student.full_name }}</p>
+                    <p><strong>Admission Number:</strong> {{ student.admission_number }}</p>
                 </div>
                 <div class="col-md-6">
-                    <p><strong>Grade:</strong> {{ child.grade }}</p>
-                    <p><strong>Date of Birth:</strong> {{ child.date_of_birth.strftime('%d %B %Y') }}</p>
+                    <p><strong>Grade:</strong> {{ student.grade }}</p>
+                    <p><strong>Date of Birth:</strong> {{ student.date_of_birth.strftime('%d %B %Y') }}</p>
                 </div>
             </div>
 
-            <!-- Results Table -->
             <div class="table-responsive">
                 <table class="table table-bordered">
                     <thead class="table-light">
@@ -51,8 +48,8 @@
                             <th>#</th>
                             <th>Subject</th>
                             <th>Exam</th>
-                            <th>Marks Obtained</th>
-                            <th>Total Marks</th>
+                            <th>Marks</th>
+                            <th>Total</th>
                             <th>Percentage</th>
                             <th>Grade</th>
                             <th>Remarks</th>
@@ -84,7 +81,7 @@
                             <th><strong>{{ average|round(1) }}%</strong></th>
                             <th>
                                 <span class="badge bg-{{ 'success' if average >= 70 else 'warning' if average >= 50 else 'danger' }}" style="font-size: 1rem;">
-                                    {% if average >= 80 %}A (Excellent){% elif average >= 70 %}B (Good){% elif average >= 60 %}C (Average){% elif average >= 50 %}D (Below Average){% else %}E (Needs Improvement){% endif %}
+                                    {% if average >= 80 %}A (Excellent){% elif average >= 70 %}B (Good){% elif average >= 60 %}C (Average){% elif average >= 50 %}D (Below Avg){% else %}E (Needs Improvement){% endif %}
                                 </span>
                             </th>
                             <th></th>
@@ -93,12 +90,11 @@
                 </table>
             </div>
 
-            <!-- Summary -->
             <div class="row mt-4">
                 <div class="col-md-6">
                     <p><strong>Average Grade:</strong> 
                         <span class="badge bg-{{ 'success' if average >= 70 else 'warning' if average >= 50 else 'danger' }}">
-                            {% if average >= 80 %}A (Excellent){% elif average >= 70 %}B (Good){% elif average >= 60 %}C (Average){% elif average >= 50 %}D (Below Average){% else %}E (Needs Improvement){% endif %}
+                            {% if average >= 80 %}A (Excellent){% elif average >= 70 %}B (Good){% elif average >= 60 %}C (Average){% elif average >= 50 %}D (Below Avg){% else %}E (Needs Improvement){% endif %}
                         </span>
                     </p>
                 </div>
@@ -107,17 +103,15 @@
                 </div>
             </div>
 
-            <!-- Comments -->
             <div class="row mt-3">
                 <div class="col-12">
                     <div class="border p-3 rounded">
                         <h6 class="fw-bold">Teacher's Comments:</h6>
-                        <p class="text-muted">{{ child.remarks or 'No comments provided.' }}</p>
+                        <p class="text-muted">Student has performed well this term. Keep up the good work!</p>
                     </div>
                 </div>
             </div>
 
-            <!-- Signatures -->
             <div class="row mt-5 pt-3">
                 <div class="col-md-4 text-center">
                     <p>______________________</p>
@@ -131,10 +125,6 @@
                     <p>______________________</p>
                     <p><strong>Parent/Guardian</strong></p>
                 </div>
-            </div>
-
-            <div class="text-center mt-3">
-                <p class="text-muted small">This is a computer-generated report card. No signature required.</p>
             </div>
         </div>
     </div>
